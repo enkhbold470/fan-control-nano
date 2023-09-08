@@ -1,30 +1,4 @@
-const int ledPins[] = {A0, A1, A2, A3, A4}; // Pins for the LEDs
-const int buttonPins[] = {2, 3, 4, 5, 6};  // Pins for the buttons
-const int numButtons = 5;                  // Number of buttons
-int buttonState[numButtons] = {LOW};       // Stores the current state of the buttons
-int lastButtonState[numButtons] = {LOW};   // Stores the previous state of the buttons
-int buttonPushCounter[numButtons] = {0};   // Counter for the number of button presses
 
-void setup() {
-  Serial.begin(9600);
-  Serial.println("ON UART");
-
-  for (int i = 0; i < numButtons; i++) {
-    pinMode(buttonPins[i], INPUT_PULLUP); // Set buttons as input with pull-up resistors
-    pinMode(ledPins[i], OUTPUT);          // Set LEDs as output
-    digitalWrite(ledPins[i], HIGH);
-  }
-
-  Serial.println("Each LED is initially turned off.");
-}
-
-void loop() {
-  for (int i = 0; i < numButtons; i++) {
-    buttonState[i] = digitalRead(buttonPins[i]);
-    checkButton(i);
-    toggleLED(i);
-  }
-}
 
 void checkButton(int buttonIndex) {
   if (buttonState[buttonIndex] != lastButtonState[buttonIndex]) {
@@ -65,10 +39,3 @@ void checkButton(int buttonIndex) {
   lastButtonState[buttonIndex] = buttonState[buttonIndex];
 }
 
-void toggleLED(int ledIndex) {
-  if (buttonPushCounter[ledIndex] % 2 == 0) {
-    digitalWrite(ledPins[ledIndex], HIGH);
-  } else {
-    digitalWrite(ledPins[ledIndex], LOW);
-  }
-}
